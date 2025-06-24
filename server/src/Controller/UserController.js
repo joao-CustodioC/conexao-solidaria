@@ -6,67 +6,117 @@ const userRouter = express.Router()
 const db = require('../db/models')
 const {userCreate, userUpdate, deleteUpdate} = require("../Validations/UserValidation");
 
+/**
+ * @swagger
+ * tags:
+ *   name: Usuários
+ *   description: Gerenciamento de usuários e inscrições em instituições
+ */
+
+/**
+ * @swagger
+ * /users/instituicao:
+ *   delete:
+ *     summary: Remove inscrição de voluntariado
+ *     tags: [Usuários]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [user_id, instituicao_id, servico_id]
+ *             properties:
+ *               user_id:
+ *                 type: integer
+ *               instituicao_id:
+ *                 type: integer
+ *               servico_id:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Voluntariado excluído com sucesso
+ *       500:
+ *         description: Erro ao excluir
+ */
 userRouter.delete('/instituicao', async (req, res) => {
   try {
-    let {user_id, instituicao_id, servico_id} = req.body
-    let voluntariado = await db.Voluntariado.findOne({
-      where: {
-        user_id,
-        instituicao_id,
-        servico_id
-      }
-    })
-
-    await voluntariado.destroy()
-    if (!voluntariado) throw new Error('Nao encontrado');
-    res.status(200).json({
-      status: true,
-      msg: 'Voluntáriado exluido!',
-    });
+    const {user_id, instituicao_id, servico_id} = req.body
+    const voluntariado = await db.Voluntariado.findOne({ where: { user_id, instituicao_id, servico_id } })
+    await voluntariado?.destroy()
+    if (!voluntariado) throw new Error('Não encontrado')
+    res.status(200).json({ status: true, msg: 'Voluntariado excluído!' })
   } catch (e) {
+    res.status(500).json({ error: e.message });
   }
-
 })
+
+/**
+ * @swagger
+ * /users/instituicao/servico:
+ *   post:
+ *     summary: Inscreve um usuário em um serviço de uma instituição
+ *     tags: [Usuários]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [user_id, instituicao_id, servico_id]
+ *             properties:
+ *               user_id:
+ *                 type: integer
+ *               instituicao_id:
+ *                 type: integer
+ *               servico_id:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Voluntariado criado com sucesso
+ *       500:
+ *         description: Erro ao criar
+ */
 userRouter.post('/instituicao/servico', async (req, res) =>{
   try {
-    let {user_id, instituicao_id, servico_id} = req.body
-    let voluntariado = await db.Voluntariado.create({
-      user_id: user_id,
-      instituicao_id,
-      servico_id
-    })
+    const {user_id, instituicao_id, servico_id} = req.body
+    const voluntariado = await db.Voluntariado.create({ user_id, instituicao_id, servico_id })
 
     res.status(201).json({
       status: true,
-      msg: 'Voluntáriado com sucesso!',
+      msg: 'Voluntariado criado com sucesso!',
       voluntariado
     });
   } catch (e) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({error: e.message});
   }
 })
 
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     summary: Retorna todos os usuários ou um usuário específico
+ *     tags: [Usuários]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: false
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Lista de usuários ou usuário retornado
+ *       500:
+ *         description: Erro ao buscar
+ */
 userRouter.get("/:id?", async (req, res) => {
   try {
     let users;
     if(req.params.id){
-      // Se o ID foi fornecido, filtre as instituições pelo ID
-      users = await db.User.findOne({
-        where: {
-          id: req.params.id
-        }
-      });
+      users = await db.User.findOne({ where: { id: req.params.id } });
     } else {
-      users = await db.User.findAll({
-        include: [
-          {
-            association: 'servicos',
-          },
-          {
-            association: 'instituicoes',
-          },
-        ],
-      });
+      users = await db.User.findAll({ include: ['servicos', 'instituicoes'] });
     }
 
     res.status(200).json({
@@ -79,19 +129,39 @@ userRouter.get("/:id?", async (req, res) => {
   }
 })
 
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Cadastra um novo usuário
+ *     tags: [Usuários]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Usuário criado
+ *       500:
+ *         description: Erro ao criar
+ */
 userRouter.post("/", userCreate(), async (req, res) => {
   try {
     let data = req.body
     data.password = cryptr.encrypt(data.password);
-    const checkUser = await db.User.findAll({
-      where: {
-        email: data.email
-      }
-    })
+    const checkUser = await db.User.findAll({ where: { email: data.email } })
 
-    if (checkUser.length > 0) {
-      throw new Error('Email já está sendo usado');
-    }
+    if (checkUser.length > 0) throw new Error('Email já está sendo usado')
+
     const user = await db.User.create(data)
 
     res.status(201).json({
@@ -104,23 +174,46 @@ userRouter.post("/", userCreate(), async (req, res) => {
   }
 });
 
-
+/**
+ * @swagger
+ * /users/{id}:
+ *   put:
+ *     summary: Atualiza um usuário existente
+ *     tags: [Usuários]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Usuário atualizado
+ *       500:
+ *         description: Erro ao atualizar
+ */
 userRouter.put('/:id', userUpdate(), async (req, res) => {
   try {
     let data = req.body
     data.password = cryptr.encrypt(data.password);
-    let user = await db.User.findOne({
-      where: {
-        id: req.params.id
-      }
-    })
+    const user = await db.User.findOne({ where: { id: req.params.id } })
 
-    if (!user) {
-      throw new Error('Usuário não encontrado!');
-    }
+    if (!user) throw new Error('Usuário não encontrado!')
 
-    let {name, email} = req.body
-
+    const { name, email } = req.body
     user.name = name
     user.email = email
     await user.save()
@@ -135,13 +228,27 @@ userRouter.put('/:id', userUpdate(), async (req, res) => {
   }
 })
 
-userRouter.delete( '/:id', deleteUpdate(), async(req, res) =>{
+/**
+ * @swagger
+ * /users/{id}:
+ *   delete:
+ *     summary: Remove um usuário do sistema
+ *     tags: [Usuários]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Usuário excluído
+ *       500:
+ *         description: Erro ao excluir
+ */
+userRouter.delete('/:id', deleteUpdate(), async (req, res) =>{
   try {
-    let user = await db.User.findOne({
-      where: {
-        id: req.params.id
-      }
-    })
+    const user = await db.User.findOne({ where: { id: req.params.id } })
     if (!user) throw new Error('Usuário não encontrado!');
 
     await user.destroy()
