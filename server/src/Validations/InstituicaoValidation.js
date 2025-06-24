@@ -52,7 +52,8 @@ const instituicaoUpdate = () => async (req, res, next) => {
     });
   }
 };
-const deleteUpdate = () => async (req, res, next) => {
+
+const instituicaoDelete = () => async (req, res, next) => {
   try {
     await yup.object({
       params: yup.object({
@@ -78,5 +79,5 @@ const deleteUpdate = () => async (req, res, next) => {
 module.exports = {
   instituicaoUpdate,
   instituicaoCreate,
-  deleteUpdate,
+  instituicaoDelete,
 };

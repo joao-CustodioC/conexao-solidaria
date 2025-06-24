@@ -4,7 +4,7 @@ const Cryptr = require('cryptr');
 const cryptr = new Cryptr(process.env.CHAVE_KEY);
 const userRouter = express.Router()
 const db = require('../db/models')
-const {userCreate, userUpdate, deleteUpdate} = require("../Validations/UserValidation");
+const {userCreate, userUpdate, userDelete} = require("../Validations/UserValidation");
 
 /**
  * @swagger
@@ -18,7 +18,7 @@ const {userCreate, userUpdate, deleteUpdate} = require("../Validations/UserValid
  * /users/instituicao:
  *   delete:
  *     summary: Remove inscrição de voluntariado
- *     tags: [Usuários]
+ *     tags: [Doações e Inscrições]
  *     requestBody:
  *       required: true
  *       content:
@@ -56,7 +56,7 @@ userRouter.delete('/instituicao', async (req, res) => {
  * /users/instituicao/servico:
  *   post:
  *     summary: Inscreve um usuário em um serviço de uma instituição
- *     tags: [Usuários]
+ *     tags: [Doações e Inscrições]
  *     requestBody:
  *       required: true
  *       content:
@@ -133,7 +133,7 @@ userRouter.get("/:id?", async (req, res) => {
  * @swagger
  * /users:
  *   post:
- *     summary: Cadastra um novo usuário
+ *     summary: Cadastra um novo usuário ADMIN
  *     tags: [Usuários]
  *     requestBody:
  *       required: true
@@ -246,7 +246,7 @@ userRouter.put('/:id', userUpdate(), async (req, res) => {
  *       500:
  *         description: Erro ao excluir
  */
-userRouter.delete('/:id', deleteUpdate(), async (req, res) =>{
+userRouter.delete('/:id', userDelete(), async (req, res) =>{
   try {
     const user = await db.User.findOne({ where: { id: req.params.id } })
     if (!user) throw new Error('Usuário não encontrado!');

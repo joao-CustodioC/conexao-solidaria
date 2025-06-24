@@ -1,36 +1,34 @@
-import React, {createContext, useState, useContext, useEffect} from 'react';
+"use client"
 
-// Cria o contexto
-const UserContext = createContext();
+import { createContext, useState, useContext, useEffect } from "react"
+import { getCurrentUser, setCurrentUser } from "../constant/config"
 
-// Provedor do contexto
+const UserContext = createContext()
+
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    // Recupera o usuário do localStorage, se existir
-    const savedUser = localStorage.getItem('user');
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
+    return getCurrentUser()
+  })
+
   useEffect(() => {
     if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
+      setCurrentUser(user)
     } else {
-      localStorage.removeItem('user');
+      localStorage.removeItem("activeUser")
     }
-  }, [user]);
+  }, [user])
+
   const login = (userData) => {
-    setUser(userData);
-  };
+    setUser(userData)
+    setCurrentUser(userData)
+  }
 
   const logout = () => {
-    setUser(null);
-  };
+    setUser(null)
+    setCurrentUser(null)
+  }
 
-  return (
-    <UserContext.Provider value={{ user, login, logout }}>
-      {children}
-    </UserContext.Provider>
-  );
-};
+  return <UserContext.Provider value={{ user, login, logout }}>{children}</UserContext.Provider>
+}
 
-// Hook para usar o contexto
-export const useUser = () => useContext(UserContext);
+export const useUser = () => useContext(UserContext)

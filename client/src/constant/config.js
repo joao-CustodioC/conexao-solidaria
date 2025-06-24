@@ -1,23 +1,23 @@
-export const baseUrl = 'http://localhost:3333/';
-// export const baseUrl = 'https://api.matheusmolokai.com.br/api/';
-export const apiUrl = baseUrl;
+export const baseUrl = "http://localhost:3333/"
+export const apiUrl = baseUrl
+
 export const getCurrentUser = () => {
-  let user = null;
+  let user = null
   try {
-    user = localStorage.getItem('activeUser') != null ? JSON.parse(localStorage.getItem('activeUser')) : null;
+    user = localStorage.getItem("activeUser") != null ? JSON.parse(localStorage.getItem("activeUser")) : null
   } catch (error) {
     console.log(">>>> src/utils/index.js : getCurrentUser -> error", error)
-    user = null;
+    user = null
   }
-  return user;
+  return user
 }
 
 export const setCurrentUser = (user) => {
   try {
     if (user) {
-      localStorage.setItem('activeUser', JSON.stringify(user))
+      localStorage.setItem("activeUser", JSON.stringify(user))
     } else {
-      localStorage.removeItem('user');
+      localStorage.removeItem("activeUser")
     }
   } catch (error) {
     console.log(">>>> src/utils/index.js : setCurrentUser -> error", error)

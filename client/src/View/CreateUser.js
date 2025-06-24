@@ -2,60 +2,59 @@
 
 import { useState } from "react"
 import axios from "../plugins/axios"
-import { User, Mail, Lock, ArrowRight, Heart, UserPlus, Shield, Zap, Star } from 'lucide-react'
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import {UserPlus, Mail, Lock, ArrowRight, Zap, Shield, Star, Heart} from 'lucide-react'
+import * as yup from 'yup'
+
+// Schema de validação para criação de usuário
+const createUserSchema = yup.object({
+  name: yup.string().required('O campo nome é obrigatório'),
+  email: yup.string().email('Insira um email válido').required('O campo email é obrigatório'),
+  password: yup
+      .string()
+      .required('O campo senha é obrigatório')
+      .min(8, 'A senha deve ter no mínimo 8 caracteres')
+      .matches(/[0-9]/, 'A senha deve conter pelo menos um número')
+      .matches(/[^A-Za-z0-9]/, 'A senha deve conter pelo menos um caractere especial'),
+});
 
 const CreateUser = () => {
-  const [usuario, setUsuario] = useState({
-    name: "",
-    email: "",
-    password: "",
-  })
-
+  const [usuario, setUsuario] = useState({ name: "", email: "", password: "" })
+  const [errors, setErrors] = useState({})
   const [disabled, setDisabled] = useState(false)
+  const navigate = useNavigate()
+
   const handleData = (key, value) => {
-    setUsuario((prevState) => ({
-      ...prevState,
-      [key]: value,
-    }))
+    setUsuario(prev => ({ ...prev, [key]: value }))
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    setErrors({})
     setDisabled(true)
 
-    const data = {
-      name: usuario.name,
-      email: usuario.email,
-      password: usuario.password,
+    // Validação local
+    try {
+      await createUserSchema.validate(usuario, { abortEarly: false })
+    } catch (validationError) {
+      const errObj = {}
+      validationError.inner.forEach(err => { errObj[err.path] = err.message })
+      setErrors(errObj)
+      setDisabled(false)
+      return
     }
 
-    await axios({
-      method: "post",
-      url: "criar-conta",
-      data: data,
-    })
-        .then((res) => {
-          return res.data
+    // Envio ao servidor
+    axios.post('auth/criar-conta', usuario)
+        .then(res => res.data)
+        .then(() => {
+          toast.success('Conta criada com sucesso!')
+          navigate('/login')
         })
-        .then((res) => {
-          toast.success("Conta criada com sucesso!")
-          handlePage("/login")
-        })
-        .catch((error) => {
-          toast.error("Erro ao criar conta.")
-        })
-        .finally(() => {
-          setDisabled(false)
-        })
-  }
-
-  const navigate = useNavigate()
-
-  const handlePage = (page) => {
-    navigate(page)
+        .catch(() => toast.error('Erro ao criar conta.'))
+        .finally(() => setDisabled(false))
   }
 
   return (
@@ -152,92 +151,65 @@ const CreateUser = () => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <label htmlFor="name" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
-                      <User className="w-4 h-4" />
-                      <span>Nome completo</span>
+                  {/* Nome */}
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-1">
+                      Nome completo
                     </label>
-                    <div className="relative group">
-                      <input
-                          id="name"
-                          type="text"
-                          name="name"
-                          value={usuario.name || ""}
-                          required
-                          onChange={(event) => handleData("name", event.target.value)}
-                          className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:bg-white transition-all duration-300 outline-none group-hover:border-gray-300"
-                          placeholder="Seu nome completo"
-                      />
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                    </div>
+                    <input
+                        id="name"
+                        type="text"
+                        value={usuario.name}
+                        onChange={e => handleData('name', e.target.value)}
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:border-emerald-500 focus:bg-white"
+                        placeholder="Seu nome completo"
+                    />
+                    {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                   </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
-                      <Mail className="w-4 h-4" />
-                      <span>E-mail</span>
+                  {/* Email */}
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-1">
+                      E-mail
                     </label>
-                    <div className="relative group">
-                      <input
-                          id="email"
-                          type="email"
-                          name="email"
-                          value={usuario.email || ""}
-                          required
-                          onChange={(event) => handleData("email", event.target.value)}
-                          className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:bg-white transition-all duration-300 outline-none group-hover:border-gray-300"
-                          placeholder="seu@email.com"
-                      />
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                    </div>
+                    <input
+                        id="email"
+                        type="email"
+                        value={usuario.email}
+                        onChange={e => handleData('email', e.target.value)}
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:border-emerald-500 focus:bg-white"
+                        placeholder="seu@email.com"
+                    />
+                    {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                   </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="password" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
-                      <Lock className="w-4 h-4" />
-                      <span>Senha</span>
+                  {/* Senha */}
+                  <div>
+                    <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-1">
+                      Senha
                     </label>
-                    <div className="relative group">
-                      <input
-                          id="password"
-                          type="password"
-                          name="password"
-                          value={usuario.password || ""}
-                          required
-                          onChange={(event) => handleData("password", event.target.value)}
-                          className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-emerald-500 focus:bg-white transition-all duration-300 outline-none group-hover:border-gray-300"
-                          placeholder="••••••••"
-                      />
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                    </div>
+                    <input
+                        id="password"
+                        type="password"
+                        value={usuario.password}
+                        onChange={e => handleData('password', e.target.value)}
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:border-emerald-500 focus:bg-white"
+                        placeholder="••••••••"
+                    />
+                    {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
                   </div>
-
                   <button
                       type="submit"
                       disabled={disabled}
-                      className={`w-full relative overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl ${
-                          disabled ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                      className={`w-full py-3 font-bold rounded-xl text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
-                    <div className="flex items-center justify-center space-x-2">
-                      <span>{disabled ? "Criando conta..." : "Criar conta gratuita"}</span>
-                      <ArrowRight className="w-5 h-5" />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                    {disabled ? 'Criando conta...' : 'Criar conta gratuita'}
                   </button>
                 </form>
-
-                <div className="mt-8 text-center">
-                  <p className="text-gray-600">
-                    Já tem uma conta?{" "}
-                    <Link
-                        to="/login"
-                        className="font-bold text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text hover:from-emerald-700 hover:to-teal-700 transition-all duration-300"
-                    >
-                      Fazer login
-                    </Link>
-                  </p>
-                </div>
+                <p className="mt-6 text-center text-gray-600">
+                  Já tem uma conta?{' '}
+                  <Link to="/login" className="text-emerald-600 hover:underline">
+                    Fazer login
+                  </Link>
+                </p>
               </div>
             </div>
           </div>

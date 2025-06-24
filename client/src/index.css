@@ -45,4 +45,45 @@
     .card-modern {
         @apply bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300;
     }
+
+    /* Toast Customizations */
+    .toast-container {
+        @apply z-[9999];
+    }
+
+    .toast-custom {
+        @apply backdrop-blur-sm bg-white/90 border border-gray-200/50 rounded-xl shadow-2xl;
+    }
+
+    .Toastify__toast--success {
+        @apply bg-emerald-500/90 backdrop-blur-sm border border-emerald-400/50;
+    }
+
+    .Toastify__toast--error {
+        @apply bg-red-500/90 backdrop-blur-sm border border-red-400/50;
+    }
+
+    .Toastify__toast--warning {
+        @apply bg-orange-500/90 backdrop-blur-sm border border-orange-400/50;
+    }
+
+    .Toastify__toast--info {
+        @apply bg-blue-500/90 backdrop-blur-sm border border-blue-400/50;
+    }
+
+    .Toastify__progress-bar--success {
+        @apply bg-emerald-300;
+    }
+
+    .Toastify__progress-bar--error {
+        @apply bg-red-300;
+    }
+
+    .Toastify__progress-bar--warning {
+        @apply bg-orange-300;
+    }
+
+    .Toastify__progress-bar--info {
+        @apply bg-blue-300;
+    }
 }

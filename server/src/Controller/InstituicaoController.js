@@ -4,7 +4,7 @@ const Cryptr = require('cryptr');
 const cryptr = new Cryptr(process.env.CHAVE_KEY);
 const instituicaoRouter = express.Router()
 const db = require('../db/models')
-const {instituicaoCreate, instituicaoUpdate, deleteUpdate} = require("../Validations/InstituicaoValidation");
+const {instituicaoCreate, instituicaoUpdate, instituicaoDelete} = require("../Validations/InstituicaoValidation");
 
 /**
  * @swagger
@@ -18,7 +18,7 @@ const {instituicaoCreate, instituicaoUpdate, deleteUpdate} = require("../Validat
  * /instituicoes/doacao/{instituicao_id}:
  *   post:
  *     summary: Realiza uma doação para uma instituição
- *     tags: [Instituições]
+ *     tags: [Doações e Inscrições]
  *     parameters:
  *       - name: instituicao_id
  *         in: path
@@ -225,7 +225,7 @@ instituicaoRouter.put('/:id', instituicaoUpdate(), async (req, res) => {
  *       500:
  *         description: Erro na exclusão
  */
-instituicaoRouter.delete('/:id', deleteUpdate(), async (req, res) => {
+instituicaoRouter.delete('/:id', instituicaoDelete(), async (req, res) => {
   try {
     let user = await db.Instituicao.findOne({
       where: { id: req.params.id }

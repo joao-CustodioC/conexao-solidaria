@@ -7,40 +7,64 @@ import { useNavigate, Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { useUser } from "../context/UserProvider"
-import { Mail, Lock, ArrowRight, Heart, Users, HandHeart, Sparkles, Shield, Globe } from 'lucide-react'
+import {Mail, Lock, ArrowRight, Heart, Users, HandHeart, Sparkles} from 'lucide-react'
+import * as yup from 'yup'
+
+// Schema de validação
+const loginSchema = yup.object({
+  email: yup
+    .string()
+    .email('Insira um email válido')
+    .required('O campo email é obrigatório'),
+  password: yup
+      .string()
+      .required('O campo senha é obrigatório')
+      .min(8, 'A senha deve ter no mínimo 8 caracteres')
+      .matches(/[0-9]/, 'A senha deve conter pelo menos um número')
+      .matches(/[^A-Za-z0-9]/, 'A senha deve conter pelo menos um caractere especial'),
+});
 
 const LoginPage = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [errors, setErrors] = useState({})
   const [disabled, setDisabled] = useState(false)
   const navigate = useNavigate()
   const { login } = useUser()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+
+    setErrors({})
     setDisabled(true)
 
-    await axios
-        .post("auth/login", {
-          email: email,
-          password: password,
-        })
-        .then((res) => res.data)
-        .then((res) => {
-          toast.success("Login efetuado com sucesso!")
-          const user = res.user
-          user.token = res.token
-          setCurrentUser(user)
-          login(user)
-          navigate("/home")
-        })
-        .catch((error) => {
-          console.error(error)
-          toast.error("Erro ao efetuar login")
-        })
-        .finally(() => {
-          setDisabled(false)
-        })
+    // Validação local com Yup
+    try {
+      await loginSchema.validate({ email, password }, { abortEarly: false })
+    } catch (validationError) {
+      const errObj = {}
+      validationError.inner.forEach(err => { errObj[err.path] = err.message })
+      setErrors(errObj)
+      setDisabled(false)
+      return
+    }
+
+    // Envio ao servidor
+    axios.post('auth/login', { email, password })
+      .then(res => res.data)
+      .then(res => {
+        toast.success('Login efetuado com sucesso!')
+        const user = res.user
+        user.token = res.token
+        setCurrentUser(user)
+        login(user)
+        navigate('/home')
+      })
+      .catch(error => {
+        console.error(error)
+        toast.error('Erro ao efetuar login')
+      })
+      .finally(() => setDisabled(false))
   }
 
   return (
@@ -138,78 +162,57 @@ const LoginPage = () => {
                   <p className="text-gray-600">Entre e continue fazendo a diferença</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
-                      <Mail className="w-4 h-4" />
-                      <span>E-mail</span>
-                    </label>
-                    <div className="relative group">
-                      <input
-                          id="email"
-                          type="email"
-                          name="email"
-                          value={email}
-                          required
-                          onChange={(val) => setEmail(val.target.value)}
-                          className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:bg-white transition-all duration-300 outline-none group-hover:border-gray-300"
-                          placeholder="seu@email.com"
-                      />
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="password" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
-                      <Lock className="w-4 h-4" />
-                      <span>Senha</span>
-                    </label>
-                    <div className="relative group">
-                      <input
-                          id="password"
-                          type="password"
-                          name="password"
-                          value={password}
-                          required
-                          onChange={(val) => setPassword(val.target.value)}
-                          className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:bg-white transition-all duration-300 outline-none group-hover:border-gray-300"
-                          placeholder="••••••••"
-                      />
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                    </div>
-                  </div>
-
-                  <button
-                      type="submit"
-                      disabled={disabled}
-                      className={`w-full relative overflow-hidden bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl ${
-                          disabled ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
-                  >
-                    <div className="flex items-center justify-center space-x-2">
-                      <span>{disabled ? "Entrando..." : "Entrar"}</span>
-                      <ArrowRight className="w-5 h-5" />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
-                  </button>
-                </form>
-
-                <div className="mt-8 text-center">
-                  <p className="text-gray-600">
-                    Novo por aqui?{" "}
-                    <Link
-                        to="/criar-conta"
-                        className="font-bold text-transparent bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
-                    >
-                      Criar conta gratuita
-                    </Link>
-                  </p>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-1">
+                    E-mail
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="meuemail@mail.com"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:border-purple-500 focus:bg-white"
+                  />
+                  {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </div>
-              </div>
+
+                <div>
+                  <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-1">
+                    Senha
+                  </label>
+                  <input
+                    id="password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:border-purple-500 focus:bg-white"
+                  />
+                  {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={disabled}
+                  className={`w-full py-3 font-bold rounded-xl text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  {disabled ? 'Entrando...' : 'Entrar'}
+                </button>
+              </form>
+
+              <p className="mt-6 text-center text-gray-600">
+                Não tem conta?{' '}
+                <Link to="/criar-conta" className="text-purple-600 hover:underline">
+                  Criar conta gratuita
+                </Link>
+              </p>
             </div>
           </div>
         </div>
       </div>
+    </div>
   )
 }
 
