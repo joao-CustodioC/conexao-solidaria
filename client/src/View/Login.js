@@ -1,134 +1,216 @@
-import React, { useState } from 'react';
-import axios from "../plugins/axios";
-import { setCurrentUser } from "../constant/config";
-import { useNavigate, Link } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {useUser} from "../context/UserProvider";
+"use client"
+
+import { useState } from "react"
+import axios from "../plugins/axios"
+import { setCurrentUser } from "../constant/config"
+import { useNavigate, Link } from "react-router-dom"
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { useUser } from "../context/UserProvider"
+import { Mail, Lock, ArrowRight, Heart, Users, HandHeart, Sparkles, Shield, Globe } from 'lucide-react'
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [disabled, setDisabled] = useState(false);
-  const navigate = useNavigate();
-  const { login} = useUser()
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setDisabled(true);
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [disabled, setDisabled] = useState(false)
+  const navigate = useNavigate()
+  const { login } = useUser()
 
-    await axios.post('auth/login', {
-      email: email,
-      password: password
-    })
-        .then(res => res.data)
-        .then(res => {
-          toast.success("Login efetuado com sucesso!");
-          let user = res.user;
-          user.token = res.token;
-          setCurrentUser(user);
-          login(user);
-          navigate('/home');
-          console.log(res);
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    setDisabled(true)
+
+    await axios
+        .post("auth/login", {
+          email: email,
+          password: password,
         })
-        .catch(error => {
-          console.error(error);
-          toast.error("Erro ao efetuar login");
+        .then((res) => res.data)
+        .then((res) => {
+          toast.success("Login efetuado com sucesso!")
+          const user = res.user
+          user.token = res.token
+          setCurrentUser(user)
+          login(user)
+          navigate("/home")
+        })
+        .catch((error) => {
+          console.error(error)
+          toast.error("Erro ao efetuar login")
         })
         .finally(() => {
-          setDisabled(false);
-        });
-  };
+          setDisabled(false)
+        })
+  }
 
   return (
-      <div className="min-h-screen flex flex-col md:flex-row">
-        <div className="flex-1 flex items-center justify-center bg-blue-600 text-white p-8">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold">Bem-vindo à Conexão Solidária</h1>
-            <p className="mt-4 text-lg">Conectando pessoas a Instituições beneficentes.</p>
-            {/* You can also add an image here */}
-          </div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-40 right-32 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "2s" }}></div>
+          <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-pink-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "4s" }}></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
         </div>
-        <div className="flex-1 flex flex-col items-center justify-center bg-gray-300 p-6">
-          <div className="flex flex-col bg-white shadow-lg px-6 sm:px-8 md:px-10 py-8 rounded-lg w-full max-w-md">
-            <div className="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800 mt-4">Login</div>
-            <div className="mt-8">
-              <form onSubmit={handleSubmit}>
-                <div className="flex flex-col mb-6">
-                  <label htmlFor="email" className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">E-mail</label>
+
+        <div className="relative z-10 flex min-h-screen">
+          {/* Left Side - Hero Section */}
+          <div className="hidden lg:flex lg:w-3/5 flex-col justify-center items-center p-12 text-white relative">
+            <div className="max-w-2xl text-center space-y-8 animate-fade-in">
+              {/* Logo and Title */}
+              <div className="space-y-6">
+                <div className="flex items-center justify-center space-x-4 mb-8">
                   <div className="relative">
-                    <div
-                        className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
-                      <svg className="h-6 w-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                           viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
-                      </svg>
+                    <div className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full blur-lg opacity-75"></div>
+                    <div className="relative p-4 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full">
+                      <Heart className="w-12 h-12 text-white" />
                     </div>
-                    <input
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={email}
-                        required
-                        onChange={val => setEmail(val.target.value)}
-                        className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
-                        placeholder="E-Mail"
-                    />
+                  </div>
+                  <div>
+                    <h1 className="text-6xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
+                      Conexão
+                    </h1>
+                    <h1 className="text-6xl font-bold bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300 bg-clip-text text-transparent -mt-2">
+                      Solidária
+                    </h1>
                   </div>
                 </div>
-                <div className="flex flex-col mb-6">
-                  <label htmlFor="password"
-                         className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Senha</label>
-                  <div className="relative">
-                    <div
-                        className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
-                      <svg className="h-6 w-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                           viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                      </svg>
-                    </div>
-                    <input
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={password}
-                        required
-                        onChange={val => setPassword(val.target.value)}
-                        className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
-                        placeholder="Senha"
-                    />
+
+                <p className="text-2xl text-purple-100 leading-relaxed">
+                  Onde <span className="text-pink-300 font-semibold">corações generosos</span> encontram{" "}
+                  <span className="text-blue-300 font-semibold">causas transformadoras</span>
+                </p>
+              </div>
+
+              {/* Features */}
+              <div className="grid grid-cols-1 gap-6 mt-16">
+                <div className="flex items-center space-x-6 p-6 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <div className="p-3 bg-gradient-to-r from-blue-400 to-purple-500 rounded-xl">
+                    <Users className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-xl font-bold text-white">Voluntariado Inteligente</h3>
+                    <p className="text-purple-200">Conecte suas habilidades com quem mais precisa</p>
                   </div>
                 </div>
-                <div className="flex w-full">
+
+                <div className="flex items-center space-x-6 p-6 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <div className="p-3 bg-gradient-to-r from-pink-400 to-rose-500 rounded-xl">
+                    <HandHeart className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-xl font-bold text-white">Doações Transparentes</h3>
+                    <p className="text-purple-200">Acompanhe o impacto real de cada contribuição</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-6 p-6 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <div className="p-3 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-xl">
+                    <Sparkles className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-xl font-bold text-white">Impacto Mensurável</h3>
+                    <p className="text-purple-200">Veja como você está transformando vidas</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side - Login Form */}
+          <div className="w-full lg:w-2/5 flex items-center justify-center p-8 relative">
+            <div className="absolute inset-0 bg-white/95 backdrop-blur-xl"></div>
+
+            <div className="relative z-10 w-full max-w-md">
+              {/* Mobile Logo */}
+              <div className="lg:hidden flex items-center justify-center mb-8">
+                <div className="p-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full">
+                  <Heart className="w-8 h-8 text-white" />
+                </div>
+                <h1 className="text-3xl font-bold ml-3 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  Conexão Solidária
+                </h1>
+              </div>
+
+              <div className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border border-white/50 animate-slide-up">
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl font-bold text-gray-800 mb-2">Bem-vindo de volta!</h2>
+                  <p className="text-gray-600">Entre e continue fazendo a diferença</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                      <Mail className="w-4 h-4" />
+                      <span>E-mail</span>
+                    </label>
+                    <div className="relative group">
+                      <input
+                          id="email"
+                          type="email"
+                          name="email"
+                          value={email}
+                          required
+                          onChange={(val) => setEmail(val.target.value)}
+                          className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:bg-white transition-all duration-300 outline-none group-hover:border-gray-300"
+                          placeholder="seu@email.com"
+                      />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="password" className="text-sm font-semibold text-gray-700 flex items-center space-x-2">
+                      <Lock className="w-4 h-4" />
+                      <span>Senha</span>
+                    </label>
+                    <div className="relative group">
+                      <input
+                          id="password"
+                          type="password"
+                          name="password"
+                          value={password}
+                          required
+                          onChange={(val) => setPassword(val.target.value)}
+                          className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:bg-white transition-all duration-300 outline-none group-hover:border-gray-300"
+                          placeholder="••••••••"
+                      />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                    </div>
+                  </div>
 
                   <button
                       type="submit"
                       disabled={disabled}
-                      className={`${disabled ? 'cursor-not-allowed' : ''} flex items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-blue-600 hover:bg-blue-700 rounded py-2 w-full transition duration-150 ease-in`}
+                      className={`w-full relative overflow-hidden bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl ${
+                          disabled ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                   >
-                    <span className="mr-2 uppercase">Login</span>
-                    <span>
-                    <svg className="h-6 w-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                         viewBox="0 0 24 24" stroke="currentColor">
-                      <path d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                  </span>
+                    <div className="flex items-center justify-center space-x-2">
+                      <span>{disabled ? "Entrando..." : "Entrar"}</span>
+                      <ArrowRight className="w-5 h-5" />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                   </button>
+                </form>
 
+                <div className="mt-8 text-center">
+                  <p className="text-gray-600">
+                    Novo por aqui?{" "}
+                    <Link
+                        to="/criar-conta"
+                        className="font-bold text-transparent bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
+                    >
+                      Criar conta gratuita
+                    </Link>
+                  </p>
                 </div>
-                <div className="mt-4 text-right">
-                  <Link className="hover:text-blue-600 hover:underline" to="/criar-conta">
-                    Criar conta
-                  </Link>
-
-                </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-  );
+  )
 }
 
-export default LoginPage;
+export default LoginPage

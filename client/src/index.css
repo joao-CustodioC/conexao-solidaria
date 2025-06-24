@@ -1,3 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-gray-50 text-gray-900 font-inter;
+    }
+}
+
+@layer components {
+    .gradient-primary {
+        @apply bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600;
+    }
+
+    .gradient-secondary {
+        @apply bg-gradient-to-r from-emerald-500 to-teal-600;
+    }
+
+    .gradient-accent {
+        @apply bg-gradient-to-r from-orange-500 to-pink-500;
+    }
+
+    .card-hover {
+        @apply transition-all duration-300 hover:shadow-2xl hover:-translate-y-2;
+    }
+
+    .btn-primary {
+        @apply bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+    }
+
+    .btn-secondary {
+        @apply bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+    }
+
+    .btn-accent {
+        @apply bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+    }
+
+    .input-modern {
+        @apply w-full rounded-xl border-2 border-gray-200 bg-white/50 backdrop-blur-sm py-3 px-4 text-gray-700 outline-none focus:border-blue-500 focus:bg-white focus:shadow-lg transition-all duration-300;
+    }
+
+    .card-modern {
+        @apply bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300;
+    }
+}
