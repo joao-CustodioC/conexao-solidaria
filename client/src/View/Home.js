@@ -176,6 +176,7 @@ const Home = () => {
                                             </div>
                                         )}
                                         <button
+                                            id="logout-button"
                                             onClick={handleLogout}
                                             className="p-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 hover:text-red-300 rounded-lg transition-all"
                                         >

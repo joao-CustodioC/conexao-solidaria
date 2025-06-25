@@ -194,6 +194,7 @@ const LoginPage = () => {
                 </div>
 
                 <button
+                    id="login-button"
                   type="submit"
                   disabled={disabled}
                   className={`w-full py-3 font-bold rounded-xl text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
