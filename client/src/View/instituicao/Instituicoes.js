@@ -179,6 +179,7 @@ const Instituicoes = () => {
                                                 </div>
                                                 {user && user.isAdmin && (
                                                     <button
+                                                        data-testid={`editar-institution-${instituicao.id}`}
                                                         onClick={() => handlePage(`/instituicoes/${instituicao.id}`)}
                                                         className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                                                     >
@@ -204,6 +205,7 @@ const Instituicoes = () => {
                                 </button>
                                 {user && user.isAdmin && (
                                     <button
+                                        id="add-institution-button"
                                         onClick={() => handlePage("/instituicoes/adicionar")}
                                         className="group relative overflow-hidden bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
                                     >

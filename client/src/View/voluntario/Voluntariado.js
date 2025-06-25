@@ -190,7 +190,7 @@ const Voluntariado = () => {
                               <p className="text-xs text-white/60">Oportunidades</p>
                             </div>
                             <div className="flex items-center justify-center">
-                              <button className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-semibold rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                              <button id="participar" className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-semibold rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                                 Participar
                               </button>
                             </div>

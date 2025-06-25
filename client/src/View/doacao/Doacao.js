@@ -186,7 +186,7 @@ const Doacao = () => {
                                                     <p className="text-xs text-white/60">Doadores</p>
                                                 </div>
                                                 <div className="text-center">
-                                                    <button className="px-4 py-2 bg-gradient-to-r from-rose-500 to-pink-600 text-white text-sm font-semibold rounded-lg hover:from-rose-600 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                                                    <button id="doar" className="px-4 py-2 bg-gradient-to-r from-rose-500 to-pink-600 text-white text-sm font-semibold rounded-lg hover:from-rose-600 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                                                         Doar agora
                                                     </button>
                                                 </div>

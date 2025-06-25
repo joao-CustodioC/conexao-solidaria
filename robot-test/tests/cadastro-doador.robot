@@ -10,7 +10,6 @@ ${BROWSER}   chrome
 Cadastro de novo usuário com sucesso
     ${id_aleatorio}=    Generate Random String    5
     Open Browser    ${URL}    ${BROWSER}
-    Maximize Browser Window
     Click Element    xpath=//a[text()="Criar conta gratuita"]
     Input Text       id=name        João Teste
     Input Text       id=email       joao${id_aleatorio}@exemplo.com

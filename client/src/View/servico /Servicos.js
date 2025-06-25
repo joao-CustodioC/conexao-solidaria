@@ -156,6 +156,7 @@ const Servicos = () => {
                                                 </div>
                                                 {user && user.isAdmin && (
                                                     <button
+                                                        data-testid={`editar-servico-${servico.id}`}
                                                         onClick={() => handlePage(`/servicos/${servico.id}`)}
                                                         className="p-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white rounded-lg hover:from-orange-600 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                                                     >
@@ -181,6 +182,7 @@ const Servicos = () => {
                                 </button>
                                 {user && user.isAdmin && (
                                     <button
+                                        id="add-service-button"
                                         onClick={() => handlePage("/servicos/adicionar")}
                                         className="group relative overflow-hidden bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
                                     >

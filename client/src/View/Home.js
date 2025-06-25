@@ -92,22 +92,19 @@ const Home = () => {
     const quickActions = [
         {
             title: "Doação Rápida",
-            subtitle: "R$ 25 • 5 min",
             icon: DollarSign,
             gradient: "from-rose-500 to-pink-600",
             action: () => handlePage("/instituicoes/doacao"),
         },
         {
-            title: "Voluntário Express",
-            subtitle: "Cadastro • 2 min",
-            icon: Clock,
+            title: "Encontrar Serviços",
+            icon: Compass,
             gradient: "from-blue-500 to-indigo-600",
             action: () => handlePage("/instituicoes/voluntariado"),
         },
         {
-            title: "Encontrar Causa",
-            subtitle: "Explorar • Agora",
-            icon: Compass,
+            title: "Instituições Próximas",
+            icon: Building2,
             gradient: "from-emerald-500 to-teal-600",
             action: () => handlePage("/instituicoes"),
         },
@@ -306,6 +303,7 @@ const Home = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     <button
+                                        id="instituicoes-button"
                                         onClick={() => handlePage("/instituicoes")}
                                         className="group p-6 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl transition-all hover:scale-105"
                                     >
@@ -322,6 +320,7 @@ const Home = () => {
                                     </button>
 
                                     <button
+                                        id="usuarios-button"
                                         onClick={() => handlePage("/usuarios")}
                                         className="group p-6 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl transition-all hover:scale-105"
                                     >
@@ -338,6 +337,7 @@ const Home = () => {
                                     </button>
 
                                     <button
+                                        id="servicos-button"
                                         onClick={() => handlePage("/servicos")}
                                         className="group p-6 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl transition-all hover:scale-105"
                                     >
@@ -357,57 +357,6 @@ const Home = () => {
                         </div>
                     </section>
                 )}
-
-                {/* Final CTA */}
-                <section className="py-10 px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-4xl mx-auto text-center">
-                        <div className="relative">
-                            <div
-                                className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-blue-500/20 rounded-3xl blur-3xl"></div>
-                            <div
-                                className="relative bg-white/5 backdrop-blur-2xl border border-white/10 rounded-3xl p-12">
-                                <div
-                                    className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full mb-8">
-                                    <Rocket className="w-10 h-10 text-white"/>
-                                </div>
-                                <h3 className="text-5xl font-bold text-white mb-6">
-                                    Sua jornada de{" "}
-                                    <span
-                                        className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                    impacto
-                  </span>{" "}
-                                    começa aqui
-                                </h3>
-                                <p className="text-xl text-white/80 mb-10 leading-relaxed max-w-2xl mx-auto">
-                                    Junte-se a uma comunidade global que está redefinindo o que significa fazer a
-                                    diferença no mundo.
-                                </p>
-                                <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                                    <button
-                                        onClick={() => handlePage("/instituicoes/doacao")}
-                                        className="group relative overflow-hidden bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white font-bold py-5 px-10 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
-                                    >
-                                        <div className="flex items-center space-x-3">
-                                            <HandHeart className="w-6 h-6"/>
-                                            <span className="text-lg">Fazer Primeira Doação</span>
-                                            <ArrowRight
-                                                className="w-5 h-5 group-hover:translate-x-1 transition-transform"/>
-                                        </div>
-                                    </button>
-                                    <button
-                                        onClick={() => handlePage("/instituicoes/voluntariado")}
-                                        className="group relative overflow-hidden bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 text-white font-bold py-5 px-10 rounded-2xl transition-all duration-300 transform hover:scale-105"
-                                    >
-                                        <div className="flex items-center space-x-3">
-                                            <UserCheck className="w-6 h-6"/>
-                                            <span className="text-lg">Ser Voluntário</span>
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
                 {/* Floating Footer */}
                 <footer className="py-12 px-4 sm:px-6 lg:px-8">
