@@ -1,4 +1,4 @@
-const db = require('./src/db/models')
+const db = require('./src/models')
 require('dotenv').config()
 const express = require('express')
 const routes = require('./src/router/router')

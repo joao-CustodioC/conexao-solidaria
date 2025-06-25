@@ -4,11 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "sequelize-cli": "^6.6.2"
+    "jest": "^30.0.3",
+    "sequelize-cli": "^6.6.2",
+    "supertest": "^7.1.1"
   },
   "scripts": {
     "dev": "nodemon app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "jest"
   },
   "dependencies": {
     "cors": "^2.8.5",

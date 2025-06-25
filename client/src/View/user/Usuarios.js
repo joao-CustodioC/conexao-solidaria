@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "../plugins/axios"
+import axios from "../../plugins/axios"
 import { Eye, Plus, ArrowLeft, Users, Shield, User, Crown, Sparkles } from "lucide-react"
-import { useUser } from "../context/UserProvider"
+import { useUser } from "../../context/UserProvider"
 
 const Usuarios = () => {
     const { user } = useUser()

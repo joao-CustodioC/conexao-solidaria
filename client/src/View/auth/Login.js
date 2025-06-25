@@ -1,12 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import axios from "../plugins/axios"
-import { setCurrentUser } from "../constant/config"
+import axios from "../../plugins/axios"
+import { setCurrentUser } from "../../constant/config"
 import { useNavigate, Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import { useUser } from "../context/UserProvider"
+import { useUser } from "../../context/UserProvider"
 import {Mail, Lock, ArrowRight, Heart, Users, HandHeart, Sparkles} from 'lucide-react'
 import * as yup from 'yup'
 

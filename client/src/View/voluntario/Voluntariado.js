@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "../plugins/axios"
+import axios from "../../plugins/axios"
 import { UserCheck, ArrowLeft, Users, Briefcase, TrendingUp, Sparkles, HandHeart, Target } from "lucide-react"
 
-const InstituicoesVoluntariado = () => {
+const Voluntariado = () => {
   const [data, setData] = useState([])
   const [servicos, setServicos] = useState([])
 
@@ -232,4 +232,4 @@ const InstituicoesVoluntariado = () => {
   )
 }
 
-export default InstituicoesVoluntariado
+export default Voluntariado

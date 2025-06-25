@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import axios from "../plugins/axios"
+import axios from "../../plugins/axios"
 import { useNavigate, Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"

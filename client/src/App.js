@@ -1,20 +1,20 @@
 import "./App.css"
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom"
-import Login from "./View/Login"
+import Login from "./View/auth/Login"
 import Home from "./View/Home"
-import Instituicoes from "./View/Instituicoes"
-import FormularioInst from "./View/FormularioInst"
+import Instituicoes from "./View/instituicao/Instituicoes"
+import FormInstituicao from "./View/instituicao/FormInstituicao"
 import { ToastContainer } from "react-toastify"
-import Usuarios from "./View/Usuarios"
-import FormularioUsuario from "./View/FormularioUsuario"
-import Servicos from "./View/Servicos"
-import FormularioServico from "./View/FormularioServico"
-import InstituicoesDoacao from "./View/InstituicoesDoacao"
-import FormularioInstituicaoDoacao from "./View/FormularioInstituicaoDoacao"
-import InstituicoesVoluntariado from "./View/InstituicoesVoluntariado"
-import FormularioInstituicaoVoluntario from "./View/FormularioInstituicaoVoluntario"
-import CreateUser from "./View/CreateUser"
-import AccessDenied from "./View/AccessDenied"
+import Usuarios from "./View/user/Usuarios"
+import FormUsuario from "./View/user/FormUsuario"
+import Servicos from "./View/servico /Servicos"
+import FormServico from "./View/servico /FormServico"
+import Doacao from "./View/doacao/Doacao"
+import FormDoacao from "./View/doacao/FormDoacao"
+import Voluntariado from "./View/voluntario/Voluntariado"
+import FormVoluntario from "./View/voluntario/FormVoluntario"
+import CreateUser from "./View/auth/CreateUser"
+import Error from "./View/error"
 import { UserProvider } from "./context/UserProvider"
 import ProtectedRoute from "./components/ProtectedRoute"
 import PublicRoute from "./components/PublicRoute"
@@ -41,7 +41,7 @@ function App() {
 
                     <Route path="/" element={<Navigate to="/login" />} />
 
-                    <Route path="/access-denied" element={<AccessDenied />} />
+                    <Route path="/access-denied" element={<Error />} />
 
                     <Route
                         path="/login"
@@ -73,7 +73,7 @@ function App() {
                         path="/instituicoes/doacao"
                         element={
                             <ProtectedRoute>
-                                <InstituicoesDoacao />
+                                <Doacao />
                             </ProtectedRoute>
                         }
                     />
@@ -81,7 +81,7 @@ function App() {
                         path="/instituicoes/doacao/:id"
                         element={
                             <ProtectedRoute>
-                                <FormularioInstituicaoDoacao />
+                                <FormDoacao />
                             </ProtectedRoute>
                         }
                     />
@@ -89,7 +89,7 @@ function App() {
                         path="/instituicoes/voluntariado"
                         element={
                             <ProtectedRoute>
-                                <InstituicoesVoluntariado />
+                                <Voluntariado />
                             </ProtectedRoute>
                         }
                     />
@@ -97,7 +97,7 @@ function App() {
                         path="/instituicoes/voluntariado/:id"
                         element={
                             <ProtectedRoute>
-                                <FormularioInstituicaoVoluntario />
+                                <FormVoluntario />
                             </ProtectedRoute>
                         }
                     />
@@ -114,7 +114,7 @@ function App() {
                         path="/instituicoes/:id"
                         element={
                             <ProtectedRoute requireAdmin={true}>
-                                <FormularioInst />
+                                <FormInstituicao />
                             </ProtectedRoute>
                         }
                     />
@@ -122,7 +122,7 @@ function App() {
                         path="/instituicoes/adicionar"
                         element={
                             <ProtectedRoute requireAdmin={true}>
-                                <FormularioInst />
+                                <FormInstituicao />
                             </ProtectedRoute>
                         }
                     />
@@ -139,7 +139,7 @@ function App() {
                         path="/servicos/:id"
                         element={
                             <ProtectedRoute requireAdmin={true}>
-                                <FormularioServico />
+                                <FormServico />
                             </ProtectedRoute>
                         }
                     />
@@ -147,7 +147,7 @@ function App() {
                         path="/servicos/adicionar"
                         element={
                             <ProtectedRoute requireAdmin={true}>
-                                <FormularioServico />
+                                <FormServico />
                             </ProtectedRoute>
                         }
                     />
@@ -164,7 +164,7 @@ function App() {
                         path="/usuarios/:id"
                         element={
                             <ProtectedRoute requireAdmin={true}>
-                                <FormularioUsuario />
+                                <FormUsuario />
                             </ProtectedRoute>
                         }
                     />
@@ -172,7 +172,7 @@ function App() {
                         path="/usuarios/adicionar"
                         element={
                             <ProtectedRoute requireAdmin={true}>
-                                <FormularioUsuario />
+                                <FormUsuario />
                             </ProtectedRoute>
                         }
                     />

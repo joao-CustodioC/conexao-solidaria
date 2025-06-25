@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const homeRouter = express.Router()
-const db = require('../db/models')
+const db = require('../models')
 
 /**
  * @swagger

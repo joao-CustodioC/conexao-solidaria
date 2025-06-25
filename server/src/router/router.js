@@ -7,7 +7,7 @@ const instituicaoRouter = require('../../src/Controller/InstituicaoController')
 const authRouter = require('../../src/Controller/AuthController')
 const homeRouter = require('../../src/Controller/HomeController')
 const servicoRouter = require('../../src/Controller/ServicoController')
-const db = require("../db/models");
+const db = require("../models");
 
 /**
  * @swagger

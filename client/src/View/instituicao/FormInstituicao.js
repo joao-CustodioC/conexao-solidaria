@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import axios from "../plugins/axios"
+import axios from "../../plugins/axios"
 import { toast } from "react-toastify"
 import { Building2, FileText, Save, ArrowLeft, Sparkles } from "lucide-react"
 
-const FormularioInst = () => {
+const FormInstituicao = () => {
   const { id } = useParams()
   const [instituicao, setInstituicao] = useState({
     name: "",
@@ -223,4 +223,4 @@ const FormularioInst = () => {
   )
 }
 
-export default FormularioInst
+export default FormInstituicao

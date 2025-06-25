@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import axios from "../plugins/axios"
+import axios from "../../plugins/axios"
 import { toast } from "react-toastify"
 import { User, Mail, Lock, Save, ArrowLeft, Crown } from "lucide-react"
 import * as yup from 'yup'
@@ -18,7 +18,7 @@ const schema = yup.object({
       .matches(/[^A-Za-z0-9]/, 'A senha deve conter pelo menos um caractere especial'),
 });
 
-const FormularioUsuario = () => {
+const FormUsuario = () => {
   const { id } = useParams()
   const [usuario, setUsuario] = useState({ name: "", email: "", password: "" })
   const [errors, setErrors] = useState({})
@@ -129,4 +129,4 @@ const FormularioUsuario = () => {
   )
 }
 
-export default FormularioUsuario;
+export default FormUsuario;

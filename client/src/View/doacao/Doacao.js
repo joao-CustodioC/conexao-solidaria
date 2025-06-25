@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "../plugins/axios"
+import axios from "../../plugins/axios"
 import { Heart, ArrowLeft, DollarSign, TrendingUp, Users, Sparkles, Gift } from "lucide-react"
 
-const InstituicoesDoacao = () => {
+const Doacao = () => {
     const [data, setData] = useState([])
 
     useEffect(() => {
@@ -216,4 +216,4 @@ const InstituicoesDoacao = () => {
     )
 }
 
-export default InstituicoesDoacao
+export default Doacao

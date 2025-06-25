@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import axios from "../plugins/axios"
+import axios from "../../plugins/axios"
 import { toast } from "react-toastify"
-import { getCurrentUser } from "../constant/config"
+import { getCurrentUser } from "../../constant/config"
 import { UserCheck, Briefcase, ArrowLeft, Users, Award, Target, Sparkles, HandHeart } from "lucide-react"
 
-const FormularioInstituicaoVoluntario = () => {
+const FormVoluntario = () => {
     const user = getCurrentUser()
     const { id } = useParams()
     const [servicos, setServicos] = useState([])
@@ -339,4 +339,4 @@ const FormularioInstituicaoVoluntario = () => {
     )
 }
 
-export default FormularioInstituicaoVoluntario
+export default FormVoluntario

@@ -3,7 +3,7 @@ const express = require('express')
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr(process.env.CHAVE_KEY);
 const userRouter = express.Router()
-const db = require('../db/models')
+const db = require('../models')
 const {userCreate, userUpdate, userDelete} = require("../Validations/UserValidation");
 
 /**

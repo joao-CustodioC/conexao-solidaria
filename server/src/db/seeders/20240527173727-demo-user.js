@@ -9,16 +9,16 @@ module.exports = {
         await queryInterface.bulkInsert('users', [
             {
                 name: 'Pedro Augusto',
-                email: 'pedroaugusto.borges@a.ucb.br',
-                password: cryptr.encrypt('1234'),
+                email: 'pedro@a.ucb.br',
+                password: cryptr.encrypt('Dev@123#'),
                 createdAt: new Date(),
                 updatedAt: new Date(),
                 isAdmin: false,
             },
             {
                 name: 'Joao Custódio ',
-                email: 'custodiojoaopedro@gmail.com',
-                password: cryptr.encrypt('1234'),
+                email: 'joao@gmail.com',
+                password: cryptr.encrypt('Dev@123#'),
                 createdAt: new Date(),
                 updatedAt: new Date(),
                 isAdmin: true,

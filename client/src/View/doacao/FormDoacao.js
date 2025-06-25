@@ -2,12 +2,12 @@
 
 import {useEffect, useState} from "react"
 import {useNavigate, useParams} from "react-router-dom"
-import axios from "../plugins/axios"
+import axios from "../../plugins/axios"
 import {toast} from "react-toastify"
-import {getCurrentUser} from "../constant/config"
+import {getCurrentUser} from "../../constant/config"
 import {Heart, DollarSign, ArrowLeft, Users, TrendingUp, Gift, Sparkles, Star} from 'lucide-react'
 
-const FormularioInstituicaoDoacao = () => {
+const FormDoacao = () => {
     const user = getCurrentUser()
     const {id} = useParams()
     const [instituicao, setInstituicao] = useState({
@@ -363,4 +363,4 @@ const FormularioInstituicaoDoacao = () => {
     )
 }
 
-export default FormularioInstituicaoDoacao
+export default FormDoacao

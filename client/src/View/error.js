@@ -5,7 +5,7 @@ import { Shield, ArrowLeft, Home, AlertTriangle, Lock } from "lucide-react"
 import { useUser } from "../context/UserProvider"
 import { getCurrentUser } from "../constant/config"
 
-const AccessDenied = () => {
+const Error = () => {
     const navigate = useNavigate()
     const { user } = useUser()
     const currentUser = getCurrentUser()
@@ -159,4 +159,4 @@ const AccessDenied = () => {
     )
 }
 
-export default AccessDenied
+export default Error
