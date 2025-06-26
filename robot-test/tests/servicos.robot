@@ -9,7 +9,7 @@ ${EMAIL}      joao@gmail.com
 ${SENHA}      Dev@123#
 
 *** Test Cases ***
-Visualizar Instituições
+Visualizar Serviços
     Open Browser    ${URL}    ${BROWSER}
 
     # Login
@@ -18,8 +18,8 @@ Visualizar Instituições
     Click Element    id=login-button
 
     # Verificar se o login foi bem-sucedido
-    Wait Until Element Is Visible    id=instituicoes-button    2s
-    Click Element                    id=instituicoes-button
+    Wait Until Element Is Visible    id=servicos-button    2s
+    Click Element                    id=servicos-button
 
     Close Browser
 
@@ -32,8 +32,8 @@ Cadastrar Serviço
     Click Element    id=login-button
 
    # Verificar se o login foi bem-sucedido
-    Wait Until Element Is Visible    id=instituicoes-button    2s
-    Click Element                    id=instituicoes-button
+    Wait Until Element Is Visible    id=servicos-button    2s
+    Click Element                    id=servicos-button
 
     Wait Until Element Is Visible    id=add-service-button    2s
     Click Element                    id=add-service-button
@@ -57,8 +57,8 @@ Editar Serviço
     Click Element    id=login-button
 
    # Verificar se o login foi bem-sucedido
-    Wait Until Element Is Visible    id=instituicoes-button    2s
-    Click Element                    id=instituicoes-button
+    Wait Until Element Is Visible    id=servicos-button    2s
+    Click Element                    id=servicos-button
 
     Wait Until Element Is Visible   xpath=//button[@data-testid="editar-servico-1"]    2s
     Click Element    xpath=//button[@data-testid="editar-servico-1"]

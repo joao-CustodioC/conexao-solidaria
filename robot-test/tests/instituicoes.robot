@@ -23,7 +23,7 @@ Visualizar Serviços
 
     Close Browser
 
-Cadastrar Serviço
+Cadastrar Instituições
     Open Browser    ${URL}    ${BROWSER}
 
     # Login
@@ -40,13 +40,13 @@ Cadastrar Serviço
 
    # Preencher formulário
      Wait Until Element Is Visible    id=name    5s
-     Input Text                       id=name    Serviço Cadastrado
-     Input Text                       id=description    Serviço Cadastrado
+     Input Text                       id=name    Instituição Cadastrado
+     Input Text                       id=description    Instituição Cadastrado
      Click Button    xpath=//button[.//span[contains(text(), "Salvar Instituição")]]
 
     Close Browser
 
-Editar Serviço
+Editar Instituições
     Open Browser    ${URL}    ${BROWSER}
 
     # Login
@@ -64,7 +64,7 @@ Editar Serviço
     # Preencher formulário
     Wait Until Element Is Visible    id=name    5s
     Input Text                       id=name    Serviço Editado via Teste
-    Input Text                       id=description    Serviço Editado via Teste
+    Input Text                       id=description    Instituição Editado via Teste
     Click Button    xpath=//button[.//span[contains(text(), "Salvar Instituição")]]
 
     Close Browser

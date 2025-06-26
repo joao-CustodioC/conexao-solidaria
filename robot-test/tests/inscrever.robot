@@ -17,8 +17,8 @@ Inscrever-se para um serviço
     Click Element    id=login-button
 
     # Verificar se o login foi bem-sucedido
-    Wait Until Element Is Visible    xpath=//button[.//h3[contains(text(), "Voluntário Express")]]    2s
-    Click Element                    xpath=//button[.//h3[contains(text(), "Voluntário Express")]]
+    Wait Until Element Is Visible    xpath=//button[.//h3[contains(text(), "Encontrar Serviço")]]    2s
+    Click Element                    xpath=//button[.//h3[contains(text(), "Encontrar Serviço")]]
 
     # Verificar se a página de doação foi carregada
     Wait Until Element Is Visible    id=participar    2s
@@ -40,8 +40,8 @@ Visualizar Instituição disponíveis para se inscrever
     Click Element    id=login-button
 
     # Verificar se o login foi bem-sucedido
-    Wait Until Element Is Visible    xpath=//button[.//h3[contains(text(), "Voluntário Express")]]    2s
-    Click Element                    xpath=//button[.//h3[contains(text(), "Voluntário Express")]]
+    Wait Until Element Is Visible    xpath=//button[.//h3[contains(text(), "Encontrar Serviço")]]    2s
+    Click Element                    xpath=//button[.//h3[contains(text(), "Encontrar Serviço")]]
 
     Close Browser
 
@@ -54,8 +54,8 @@ Visualizar inscrições por Instituição
     Click Element    id=login-button
 
     # Verificar se o login foi bem-sucedido
-    Wait Until Element Is Visible    xpath=//button[.//h3[contains(text(), "Voluntário Express")]]    2s
-    Click Element                    xpath=//button[.//h3[contains(text(), "Voluntário Express")]]
+    Wait Until Element Is Visible    xpath=//button[.//h3[contains(text(), "Encontrar Serviço")]]    2s
+    Click Element                    xpath=//button[.//h3[contains(text(), "Encontrar Serviço")]]
 
     # Verificar se a página de doação foi carregada
     Wait Until Element Is Visible    id=participar    2s

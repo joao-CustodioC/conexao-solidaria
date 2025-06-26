@@ -187,15 +187,6 @@ const Usuarios = () => {
                             </span>
                                                     )}
                                                 </div>
-                                                {user && user.isAdmin && (
-                                                    <button
-                                                        data-testid={`editar-usuario-${usuario.id}`}
-                                                        onClick={() => handlePage(`/usuarios/${usuario.id}`)}
-                                                        className="p-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                                                    >
-                                                        <Eye className="w-4 h-4"/>
-                                                    </button>
-                                                )}
                                             </div>
                                         </div>
                                     </div>

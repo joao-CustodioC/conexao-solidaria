@@ -78,11 +78,11 @@ authRouter.post("/login", login(), async (req, res) => {
  *           schema:
  *             type: object
  *             required:
- *               - nome
+ *               - name
  *               - email
  *               - password
  *             properties:
- *               nome:
+ *               name:
  *                 type: string
  *               email:
  *                 type: string
